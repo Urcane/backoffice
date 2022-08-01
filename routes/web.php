@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'master_data'], function () {
+        Route::get('user_management', [UserManagementController::class, 'index'])->name('user_management');
+    });
+});
 
 require __DIR__.'/auth.php';
